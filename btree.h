@@ -13,6 +13,7 @@
 typedef struct b_data {
     uint64_t value_;
     uint64_t key_;
+    int deleted_;
 } b_data;
 
 typedef struct b_tree_node {
@@ -24,6 +25,8 @@ typedef struct b_tree_node {
 /* init head of B-tree */
 b_tree_node *init_b_tree_head();
 
+void delete_elem(b_tree_node *tree, uint64_t key);
+b_data * find_key(b_tree_node *tree, uint64_t key);
 
 void print_tree(b_tree_node *tree);
 void print_node(b_tree_node *node);

@@ -6,6 +6,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void delete_elem(b_tree_node *tree, const uint64_t key) {
+    find_key(tree, key)->deleted_ = 1;
+};
+
+b_data * find_key(b_tree_node *node, const uint64_t key){
+    if (!node)
+        return NULL;
+
+    for (int i = 0; i < N; i++) {
+        if (node->data_[i].key_ == key)
+            return &node->data_[i];
+        if (node->data_[i].key_ > key){
+            return find_key(node->ptrs_[i], key);
+            //go left
+
+        }
+    };
+    return find_key(node->ptrs_[N], key);
+    //go right
+};
+
 b_tree_node *init_b_tree_head() {
 
     b_tree_node *node = (b_tree_node *) calloc(1, sizeof(b_tree_node));

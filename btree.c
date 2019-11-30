@@ -6,6 +6,127 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+b_tree_node *init_b_tree_head() {
+
+    b_tree_node *node = (b_tree_node *) calloc(1, sizeof(b_tree_node));
+
+    if (node == NULL) {
+        printf("Error: cant allocate memory\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < N; i++) {
+        node->data_[i].value_ = 0;
+        node->data_[i].key_ = 0;
+        node->ptrs_[i] = NULL;
+    }
+    node->ptrs_[N] = NULL;
+    node->cur_N = 0;
+
+    return node;
+}
+
+
+void b_tree_add(b_tree_node *node, uint64_t key, uint64_t value, b_tree_node *ptr) {
+    if(!node) return;
+
+    if(node->cur_N == 0) {
+        printf("I'm %p, adding %llu, new ptr %p\n", node, key, ptr);
+        node->data_[0].value_ = value;
+        node->data_[0].key_ = key;
+        node->cur_N++;
+        return;
+    }
+
+    for(unsigned i = 0 ; i < N; i++) {
+        uint64_t N_key = node->data_[i].key_;
+        if(key == N_key) {
+            node->data_[i].value_ = value;
+            return;
+        }
+        if(key < N_key) {
+            if(node->ptrs_[i] == NULL) {
+                if(node->cur_N == N) //full
+                    node_split(node, key, value);
+
+                else {
+                    add_by_pos(node, i, key, value, ptr);
+                }
+            }
+            else {
+                b_tree_add(node->ptrs_[i], key, value, ptr);
+                node->ptrs_[i]->parent = node;
+            }
+            return;
+        }
+    }
+    if (key > node->data_[node->cur_N].key_) {
+
+        if(node->ptrs_[node->cur_N + 1] == NULL) {
+            if(node->cur_N == N) //full
+                node_split(node);
+
+            else {
+                printf("I'm Greater, node %p, adding %llu, new ptr %p\n", node, key, ptr);
+                node->data_[node->cur_N].key_ = key;
+                node->data_[node->cur_N].value_ = value;
+                node->cur_N++;
+            }
+        }
+        else {
+            b_tree_add(node->ptrs_[node->cur_N + 1], key, value, ptr);
+        }
+    }
+}
+
+
+void add_by_pos(b_tree_node *node, uint64_t pos, uint64_t key, uint64_t value, b_tree_node *ptr_right) {
+    if(!node) return;
+    printf("I'm shifter, node %p, adding %llu, new ptr %p\n", node, key, ptr_right);
+    for(int i = node->cur_N; i > pos; i--) {
+        node->data_[i].value_ = node->data_[i-1].value_;
+        node->data_[i].key_ = node->data_[i-1].key_;
+        node->ptrs_[i+1] = node->ptrs_[i];
+    }
+    node->ptrs_[pos] = ptr_right;
+    node->data_[pos].value_ = value;
+    node->data_[pos].key_ = key;
+    node->cur_N++;
+}
+
+
+void node_split(b_tree_node *node, uint64_t key, uint64_t value) {
+    b_data middle = node->data_[N / 2];
+
+    b_tree_node * right = init_b_tree_head();
+
+    //copy right half to that
+    right->ptrs_[0] = node->ptrs_[N / 2];
+    for (int i = N / 2, j = 0; i < N; i++, j++) {
+        right->data_[j].value_ = node->data_[i].value_;
+        right->data_[j].key_ = node->data_[i].key_;
+        right->ptrs_[j + 1] = node->ptrs_[i + 1];
+    }
+
+    //delete middle and right from left
+    for (int i = N / 2; i < N; i++) {
+        node->data_[i].value_ = 0;
+        node->data_[i].key_ = 0;
+        node->ptrs_[i + 1] = NULL;
+    }
+
+    if (node->parent != 0)
+        right->parent = node->parent;
+    else {
+        node->parent = init_b_tree_head();
+        right->parent = node->parent;
+    }
+
+    b_tree_add(node->parent, middle.key_, middle.value_, right);
+    b_tree_add(node->parent, key, value, NULL);
+}
+
+
 void delete_elem(b_tree_node *tree, const uint64_t key) {
     find_key(tree, key)->deleted_ = 1;
 };
@@ -27,24 +148,6 @@ b_data * find_key(b_tree_node *node, const uint64_t key){
     //go right
 };
 
-b_tree_node *init_b_tree_head() {
-
-    b_tree_node *node = (b_tree_node *) calloc(1, sizeof(b_tree_node));
-
-    if (node == NULL) {
-        printf("Error: cant allocate memory\n");
-        exit(1);
-    }
-
-    for (int i = 0; i < N; i++) {
-        node->data_[i].value_ = 0;
-        node->data_[i].key_ = 0;
-        node->ptrs_[i] = NULL;
-    }
-    node->ptrs_[N] = NULL;
-
-    return node;
-}
 
 FILE *super_tree_dump;
 

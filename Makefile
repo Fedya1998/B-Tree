@@ -1,7 +1,7 @@
-SOURCES = b_tree.c
+SOURCES = btree.c
 MAIN = main.c
 OPTIONS = -std=c11
-EXE = b_tree
+EXE = btree
 all: build
 
 build: $(SOURCES) $(MAIN)

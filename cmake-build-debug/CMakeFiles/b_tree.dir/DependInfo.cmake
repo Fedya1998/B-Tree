@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/Users/fedya/code/Acronis/4year/FS/b-tree/b_tree.c" "/Users/fedya/code/Acronis/4year/FS/b-tree/cmake-build-debug/CMakeFiles/b_tree.dir/b_tree.c.o"
+  "/Users/fedya/code/Acronis/4year/FS/b-tree/btree.c" "/Users/fedya/code/Acronis/4year/FS/b-tree/cmake-build-debug/CMakeFiles/b_tree.dir/btree.c.o"
   "/Users/fedya/code/Acronis/4year/FS/b-tree/main.c" "/Users/fedya/code/Acronis/4year/FS/b-tree/cmake-build-debug/CMakeFiles/b_tree.dir/main.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")

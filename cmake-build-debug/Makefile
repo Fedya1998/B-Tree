@@ -123,32 +123,32 @@ b_tree/fast:
 	$(MAKE) -f CMakeFiles/b_tree.dir/build.make CMakeFiles/b_tree.dir/build
 .PHONY : b_tree/fast
 
-b_tree.o: b_tree.c.o
+btree.o: btree.c.o
 
-.PHONY : b_tree.o
+.PHONY : btree.o
 
 # target to build an object file
-b_tree.c.o:
-	$(MAKE) -f CMakeFiles/b_tree.dir/build.make CMakeFiles/b_tree.dir/b_tree.c.o
-.PHONY : b_tree.c.o
+btree.c.o:
+	$(MAKE) -f CMakeFiles/b_tree.dir/build.make CMakeFiles/b_tree.dir/btree.c.o
+.PHONY : btree.c.o
 
-b_tree.i: b_tree.c.i
+btree.i: btree.c.i
 
-.PHONY : b_tree.i
+.PHONY : btree.i
 
 # target to preprocess a source file
-b_tree.c.i:
-	$(MAKE) -f CMakeFiles/b_tree.dir/build.make CMakeFiles/b_tree.dir/b_tree.c.i
-.PHONY : b_tree.c.i
+btree.c.i:
+	$(MAKE) -f CMakeFiles/b_tree.dir/build.make CMakeFiles/b_tree.dir/btree.c.i
+.PHONY : btree.c.i
 
-b_tree.s: b_tree.c.s
+btree.s: btree.c.s
 
-.PHONY : b_tree.s
+.PHONY : btree.s
 
 # target to generate assembly for a file
-b_tree.c.s:
-	$(MAKE) -f CMakeFiles/b_tree.dir/build.make CMakeFiles/b_tree.dir/b_tree.c.s
-.PHONY : b_tree.c.s
+btree.c.s:
+	$(MAKE) -f CMakeFiles/b_tree.dir/build.make CMakeFiles/b_tree.dir/btree.c.s
+.PHONY : btree.c.s
 
 main.o: main.c.o
 
@@ -186,9 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... b_tree"
-	@echo "... b_tree.o"
-	@echo "... b_tree.i"
-	@echo "... b_tree.s"
+	@echo "... btree.o"
+	@echo "... btree.i"
+	@echo "... btree.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

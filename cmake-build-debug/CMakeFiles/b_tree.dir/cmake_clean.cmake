@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/b_tree.dir/main.c.o"
-  "CMakeFiles/b_tree.dir/b_tree.c.o"
+  "CMakeFiles/b_tree.dir/btree.c.o"
   "b_tree.pdb"
   "b_tree"
 )

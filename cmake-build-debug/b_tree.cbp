@@ -78,10 +78,10 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/fedya/code/Acronis/4year/FS/b-tree/b_tree.c">
+		<Unit filename="/Users/fedya/code/Acronis/4year/FS/b-tree/btree.c">
 			<Option target="b_tree"/>
 		</Unit>
-		<Unit filename="/Users/fedya/code/Acronis/4year/FS/b-tree/b_tree.h">
+		<Unit filename="/Users/fedya/code/Acronis/4year/FS/b-tree/btree.h">
 			<Option target="b_tree"/>
 		</Unit>
 		<Unit filename="/Users/fedya/code/Acronis/4year/FS/b-tree/main.c">

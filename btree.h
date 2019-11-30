@@ -10,6 +10,7 @@
 #include <stdint.h>
 #define N 3
 
+
 typedef struct b_data {
     uint64_t value_;
     uint64_t key_;
@@ -21,6 +22,7 @@ typedef struct b_tree_node {
     struct b_tree_node *ptrs_[N + 1];
     struct b_tree_node *parent;
     int cur_N;
+    struct b_tree_node *head;
 } b_tree_node;
 
 /* init head of B-tree */

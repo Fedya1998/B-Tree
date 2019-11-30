@@ -22,6 +22,7 @@ b_tree_node *init_b_tree_head() {
     }
     node->ptrs_[N] = NULL;
     node->cur_N = 0;
+    node->head = node;
 
     return node;
 }
@@ -45,26 +46,28 @@ void b_tree_add(b_tree_node *node, uint64_t key, uint64_t value, b_tree_node *pt
             return;
         }
         if(key < N_key) {
+            printf("Key %llu < N<key, i'm in %p, i = %i\n", key, node, i);
             if(node->ptrs_[i] == NULL) {
+                //getchar();
                 if(node->cur_N == N) //full
                     node_split(node, key, value);
-
                 else {
                     add_by_pos(node, i, key, value, ptr);
                 }
             }
             else {
+                printf("Going to ptr %p\n", node->ptrs_[i]);
                 b_tree_add(node->ptrs_[i], key, value, ptr);
                 node->ptrs_[i]->parent = node;
             }
             return;
         }
     }
-    if (key > node->data_[node->cur_N].key_) {
-
-        if(node->ptrs_[node->cur_N + 1] == NULL) {
+    if (key > node->data_[node->cur_N - 1].key_) {
+        printf("Key %llu >... cur_N = %i\n", key, node->cur_N);
+        if(node->ptrs_[node->cur_N] == NULL) {
             if(node->cur_N == N) //full
-                node_split(node);
+                node_split(node, key, value);
 
             else {
                 printf("I'm Greater, node %p, adding %llu, new ptr %p\n", node, key, ptr);
@@ -74,7 +77,7 @@ void b_tree_add(b_tree_node *node, uint64_t key, uint64_t value, b_tree_node *pt
             }
         }
         else {
-            b_tree_add(node->ptrs_[node->cur_N + 1], key, value, ptr);
+            b_tree_add(node->ptrs_[node->cur_N], key, value, ptr);
         }
     }
 }
@@ -96,33 +99,61 @@ void add_by_pos(b_tree_node *node, uint64_t pos, uint64_t key, uint64_t value, b
 
 
 void node_split(b_tree_node *node, uint64_t key, uint64_t value) {
+    printf("I'm splitter, key %llu\n", key);
     b_data middle = node->data_[N / 2];
-
     b_tree_node * right = init_b_tree_head();
 
     //copy right half to that
     right->ptrs_[0] = node->ptrs_[N / 2];
-    for (int i = N / 2, j = 0; i < N; i++, j++) {
+    for (int i = N / 2 + 1, j = 0; i < N; i++, j++) {
+        printf("Copying %llu from %p to %p\n", node->data_[i].key_, node, right);
         right->data_[j].value_ = node->data_[i].value_;
         right->data_[j].key_ = node->data_[i].key_;
+        right->cur_N++;
         right->ptrs_[j + 1] = node->ptrs_[i + 1];
     }
 
-    //delete middle and right from left
-    for (int i = N / 2; i < N; i++) {
-        node->data_[i].value_ = 0;
-        node->data_[i].key_ = 0;
-        node->ptrs_[i + 1] = NULL;
-    }
-
-    if (node->parent != 0)
+    if (node->parent != 0) {
+        printf("Parent != 0\n");
         right->parent = node->parent;
+
+
+        printf("Going to add in parent %llu\n", middle.key_);
+        if(node->parent->cur_N == N) //full
+            node_split(node->parent, middle.key_, middle.value_);
+        else {
+            node->parent->data_[node->parent->cur_N].key_ = middle.key_;
+            node->parent->data_[node->parent->cur_N++].value_ = middle.value_;
+            node->parent->ptrs_[node->parent->cur_N] = node;
+            node->parent->ptrs_[node->parent->cur_N] = right;
+        }
+
+    }
     else {
         node->parent = init_b_tree_head();
         right->parent = node->parent;
+        printf("Adding %llu to %p\n", middle.key_, node->parent);
+        node->parent->data_[0].key_ = middle.key_;
+        node->parent->data_[0].value_ = middle.value_;
+        node->parent->cur_N++;
+        node->parent->ptrs_[0] = node;
+        node->parent->ptrs_[1] = right;
+
+        node->parent->head = node->parent;
+        node->head = node->parent;
     }
 
-    b_tree_add(node->parent, middle.key_, middle.value_, right);
+
+
+    //delete middle and right from left
+    for (int i = N / 2; i < N; i++) {
+        printf("Deleting %llu from %p\n", node->data_[i].key_, node);
+        node->data_[i].value_ = 0;
+        node->data_[i].key_ = 0;
+        node->ptrs_[i + 1] = NULL;
+        node->cur_N = N / 2;
+    }
+
     b_tree_add(node->parent, key, value, NULL);
 }
 

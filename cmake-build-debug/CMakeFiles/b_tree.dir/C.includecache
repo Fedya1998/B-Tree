@@ -6,14 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/Users/fedya/code/Acronis/4year/FS/b-tree/btree.c
-btree.h
-/Users/fedya/code/Acronis/4year/FS/b-tree/btree.h
-stdio.h
--
-stdlib.h
--
-
 /Users/fedya/code/Acronis/4year/FS/b-tree/btree.h
 stdint.h
 -
@@ -22,6 +14,8 @@ stdint.h
 stdio.h
 -
 stdlib.h
+-
+time.h
 -
 btree.h
 /Users/fedya/code/Acronis/4year/FS/b-tree/btree.h

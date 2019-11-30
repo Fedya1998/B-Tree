@@ -19,7 +19,7 @@ int main() {
     printf("Adding 8 \n\n------\n\n");
     b_tree_add(head->head, 8, 0, NULL);
 
-    for (unsigned i = 0; i < 11; i++)
+    for (unsigned i = 0; i < 9; i++)
         b_tree_add(head->head, i + 1, 0, NULL);
 
 
